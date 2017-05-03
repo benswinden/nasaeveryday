@@ -1,5 +1,5 @@
 {
-  "name": "zoldorf",
+  "name": "nasaeveryday",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/benswinden/zoldorf.git"
+    "url": "git+https://github.com/benswinden/nasaeveryday.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/benswinden/zoldorf/issues"
+    "url": "https://github.com/benswinden/nasaeveryday/issues"
   },
-  "homepage": "https://github.com/benswinden/zoldorf#readme",
+  "homepage": "https://github.com/benswinden/nasaeveryday#readme",
   "dependencies": {
     "twit": "^2.2.5"
   }
