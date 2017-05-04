@@ -12,15 +12,30 @@ var Twitter = new twit({
   timeout_ms:           60*1000,  // optional HTTP request timeout to apply to all requests.
 })
 
+var API_KEY = '?api_key=mEs35gN5ULmDf9S8Thq5uXIQ3pAk8ZW6kM8qRBCZ';
 
 getImage();
 
 
 function getImage() {
 
-    $.get('https://images-api.nasa.gov/search?q=apollo%2011%20&description=moon%20landing%20&media_type=image', function(data){
+    var url = 'https://images-api.nasa.gov/search?q=apollo%2011%20&description=moon%20landing%20&media_type=image';
+    //url += API_KEY;
 
-        console.log(data);
+    $.get(url, function(data){
+
+        var obj = JSON.parse(data);
+
+        var items = obj.collection.items;
+        console.log(items[0].links.href);
+        // for (var key in arr) {
+        //
+        //     console.log(arr[key]);
+        // }
+
+        // for (x in data.collection.items) {
+        //     console.log(x);
+        // }
     });
 }
 
