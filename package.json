@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/benswinden/nasaeveryday#readme",
   "dependencies": {
+    "najax": "^1.0.3",
+    "request": "^2.81.0",
     "twit": "^2.2.5"
   }
 }
