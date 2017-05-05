@@ -14,44 +14,51 @@ var Twitter = new twit({
 
 var API_KEY = '?api_key=mEs35gN5ULmDf9S8Thq5uXIQ3pAk8ZW6kM8qRBCZ';
 
-getImage();
+var keywords = ["nebula","galaxy","stars","planet"];
+var numImages = 1;
+var downloadsFinished = 0;
+
+for (i = 0; i < numImages; i++) {
+
+    getImage(i);
+}
 
 
-function getImage() {
+function getImage(imageNum) {
 
-    var url = 'https://images-api.nasa.gov/search?q=apollo%2011%20&description=moon%20landing%20&media_type=image';
+    var word = keywords[ Math.floor(Math.random() * keywords.length) ];
+
+    var url = 'https://images-api.nasa.gov/search?q=' + word + '&media_type=image';
     //url += API_KEY;
 
     $.get(url, function(data){
 
         var obj = JSON.parse(data);
-
         var items = obj.collection.items;
-        console.log(items[0].links.href);
-        // for (var key in arr) {
-        //
-        //     console.log(arr[key]);
-        // }
+        var num = Math.floor(Math.random() * 6) + 1
 
-        // for (x in data.collection.items) {
-        //     console.log(x);
-        // }
+        var url = items[num].links[0].href;
+        console.log(url);
+        download(url, imageNum);
     });
 }
 
-function download() {
+function download(url, imageNum) {
 
     var download = function(uri, filename, callback){
       request.head(uri, function(err, res, body){
-        console.log('content-type:', res.headers['content-type']);
-        console.log('content-length:', res.headers['content-length']);
+        // console.log('content-type:', res.headers['content-type']);
+        // console.log('content-length:', res.headers['content-length']);
 
         request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
       });
     };
 
-    download('https://www.google.com/images/srpr/logo3w.png', 'img.png', function(){
-      tweet();
+    download(url, 'img' + imageNum + '.png', function(){
+
+        downloadsFinished += 1;
+        if (downloadsFinished == numImages)
+            tweet();
     });
 }
 
@@ -59,24 +66,27 @@ function download() {
 function tweet() {
 
   // post a tweet with media
-  var b64content = fs.readFileSync('img.png', { encoding: 'base64' })
+  var b64content = fs.readFileSync('img0.png', { encoding: 'base64' })
 
   Twitter.post('media/upload', { media_data: b64content }, function (err, data, response) {
     // now we can assign alt text to the media, for use by screen readers and
     // other text-based presentations and interpreters
     var mediaIdStr = data.media_id_string
-    var altText = "Small flowers in a planter on a sunny balcony, blossoming."
+    var altText = " "
     var meta_params = { media_id: mediaIdStr, alt_text: { text: altText } }
 
     Twitter.post('media/metadata/create', meta_params, function (err, data, response) {
       if (!err) {
         // now we can reference the media and post a tweet (media will attach to the tweet)
-        var params = { status: 'loving life #nofilter', media_ids: [mediaIdStr] }
+        var params = { status: ' ', media_ids: [mediaIdStr] }
 
         Twitter.post('statuses/update', params, function (err, data, response) {
 
           tweetFinished();
         })
+      }
+      else {
+          console.log(err);
       }
     })
   })
