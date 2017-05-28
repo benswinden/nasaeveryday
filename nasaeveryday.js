@@ -92,7 +92,7 @@ function getImage() {
     //     console.log("Image URL: "+ url + '\n');
     //
     //     download(url);
-    // });
+    });
 
     //
     // $.get(url, function(data){
