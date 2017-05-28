@@ -3,7 +3,8 @@ var twit = require('twit'),
     config = require('./config.js'),
     fs = require('fs'),
     request = require('request'),
-    najax = $ = require('najax');
+    najax = $ = require('najax'),
+    later = require('later');
 
 var Twitter = new twit({
   consumer_key: 'eE7NNENAsRPlNqhIAZLb3RceC',
@@ -48,19 +49,19 @@ var emoticons = ["(*•̀ᴗ•́*)و", "(๑•̀ㅂ•́)و","(๑˃̵ᴗ˂̵)
 "（ΟΔΟ；；）","(O∆O)","｡ﾟ(TヮT)ﾟ｡"];
 
 
-var numImages = 1;
 var downloadsFinished = 0;
 
 var tweetTextChance = 0.6;      // percent chance of text happening in a tweet
 
+//var textSched = later.parse.text('at 11:15am every day');
+var textSched = later.parse.text('every 5 minutes');
+later.date.EST();
 
-for (i = 0; i < numImages; i++) {
-
-    getImage(i);
-}
+var timer = later.setInterval(getImage(i), textSched);
 
 
-function getImage(imageNum) {
+
+function getImage() {
 
     console.log("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
     console.log("Get Image" + '\n');
@@ -89,11 +90,11 @@ function getImage(imageNum) {
         console.log("Random Image Number: " + num);
         console.log("Image URL: "+ url + '\n');
 
-        download(url, imageNum);
+        download(url);
     });
 }
 
-function download(url, imageNum) {
+function download(url) {
 
     console.log("Downloading...");
 
@@ -106,7 +107,7 @@ function download(url, imageNum) {
       });
     };
 
-    download(url, 'img' + imageNum + '.png', function(){
+    download(url, 'img0.png', function(){
 
         downloadsFinished += 1;
         if (downloadsFinished == numImages)
