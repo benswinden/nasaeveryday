@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 
 var twit = require('twit'),
     config = require('./config.js'),
@@ -56,7 +57,7 @@ var tweetTextChance = 0.6;      // percent chance of text happening in a tweet
 //var textSched = later.parse.text('at 11:15am every day');
 var textSched = later.parse.text('every 5 minutes');
 
-var timer = later.setInterval(getImage(i), textSched);
+var timer = later.setInterval(getImage(), textSched);
 
 
 
@@ -108,10 +109,8 @@ function download(url) {
 
     download(url, 'img0.png', function(){
 
-        downloadsFinished += 1;
-        if (downloadsFinished == numImages)
-            console.log("Download Complete" + '\n');
-            tweet();
+        console.log("Download Complete" + '\n');
+        tweet();
     });
 }
 
@@ -173,15 +172,15 @@ function createText() {
         tweetText = ' ';
     }
     // Tweet an emoji or two
-    else if (ran < 0.3) {
-
-        var numEmoji = randomInt(1,2);
-        for (i = 0;i < numEmoji; i++) {
-            tweetText += emoji[randomInt(0, emoji.length - 1)];
-        }
-    }
+    // else if (ran < 0.3) {
+    //
+    //     var numEmoji = randomInt(1,2);
+    //     for (i = 0;i < numEmoji; i++) {
+    //         tweetText += emoji[randomInt(0, emoji.length - 1)];
+    //     }
+    // }
     //A unicode text tweet
-    else if (ran < 0.6) {
+    else if (ran < 0.5) {
 
         var numMain1 = randomInt(0,1);
         var numMain2 = randomInt(0,1);
