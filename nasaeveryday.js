@@ -4,7 +4,7 @@ var twit = require('twit'),
     config = require('./config.js'),
     fs = require('fs'),
     request = require('request'),
-    najax = $ = require('najax'),
+    superagent = require('superagent'),
     later = require('later');
 
 var Twitter = new twit({
@@ -68,30 +68,46 @@ function getImage() {
 
     var randomArrayIndex = randomInt(0, keywords.length - 1);
 
-    var word = keywords[randomArrayIndex];
+    var keyword = keywords[randomArrayIndex];
     var maxPageNum = keywordNumPages[randomArrayIndex];
 
     var pageNum = Math.floor(Math.random() * maxPageNum) + 1
 
-    var url = 'https://images-api.nasa.gov/search?q=' + word + '&media_type=image' + '&page=' + pageNum;
+    var url = 'https://images-api.nasa.gov/search?q=' + keyword + '&media_type=image' + '&page=' + pageNum;
     //url += API_KEY;
 
-    console.log("Keyword: " + word + "  Max Number Pages: " + maxPageNum + "   Page Num: " + pageNum);
+    console.log("Keyword: " + keyword + "  Max Number Pages: " + maxPageNum + "   Page Num: " + pageNum);
     console.log("Search URL: " + url);
 
-    $.get(url, function(data){
+    request(url, function(err, res){
 
-        var obj = JSON.parse(data);
-        var items = obj.collection.items;
-        var num = randomInt(0, items.length - 1);
+        console.log("COMPLETE");
+    //     var obj = JSON.parse(res);
+    //     var items = obj.collection.items;
+    //     var num = randomInt(0, items.length - 1);
+    //
+    //     var url = items[num].links[0].href;
+    //
+    //     console.log("Random Image Number: " + num);
+    //     console.log("Image URL: "+ url + '\n');
+    //
+    //     download(url);
+    // });
 
-        var url = items[num].links[0].href;
-
-        console.log("Random Image Number: " + num);
-        console.log("Image URL: "+ url + '\n');
-
-        download(url);
-    });
+    //
+    // $.get(url, function(data){
+    //
+    //     var obj = JSON.parse(data);
+    //     var items = obj.collection.items;
+    //     var num = randomInt(0, items.length - 1);
+    //
+    //     var url = items[num].links[0].href;
+    //
+    //     console.log("Random Image Number: " + num);
+    //     console.log("Image URL: "+ url + '\n');
+    //
+    //     download(url);
+    // });
 }
 
 function download(url) {
