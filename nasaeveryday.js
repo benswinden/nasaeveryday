@@ -3,8 +3,8 @@
 var twit = require('twit'),
     config = require('./config.js'),
     fs = require('fs'),
-    request = require('request'),
-    superagent = require('superagent'),
+    request = require('request'),    
+    util = require('util'),
     later = require('later');
 
 var Twitter = new twit({
@@ -81,33 +81,17 @@ function getImage() {
 
     request(url, function(err, res){
 
-        console.log("COMPLETE");
-    //     var obj = JSON.parse(res);
-    //     var items = obj.collection.items;
-    //     var num = randomInt(0, items.length - 1);
-    //
-    //     var url = items[num].links[0].href;
-    //
-    //     console.log("Random Image Number: " + num);
-    //     console.log("Image URL: "+ url + '\n');
-    //
-    //     download(url);
-    });
+        var obj = JSON.parse(res.body);
+        var items = obj.collection.items;
+        var num = randomInt(0, items.length - 1);
 
-    //
-    // $.get(url, function(data){
-    //
-    //     var obj = JSON.parse(data);
-    //     var items = obj.collection.items;
-    //     var num = randomInt(0, items.length - 1);
-    //
-    //     var url = items[num].links[0].href;
-    //
-    //     console.log("Random Image Number: " + num);
-    //     console.log("Image URL: "+ url + '\n');
-    //
-    //     download(url);
-    // });
+        var url = items[num].links[0].href;
+
+        console.log("Random Image Number: " + num);
+        console.log("Image URL: "+ url + '\n');
+
+        download(url);
+    });
 }
 
 function download(url) {
