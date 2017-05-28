@@ -55,7 +55,6 @@ var tweetTextChance = 0.6;      // percent chance of text happening in a tweet
 
 //var textSched = later.parse.text('at 11:15am every day');
 var textSched = later.parse.text('every 5 minutes');
-later.date.EST();
 
 var timer = later.setInterval(getImage(i), textSched);
 
